@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:search_list_project/city_list.dart';
 import 'package:search_list_project/db_helper.dart';
 
 class CountryListScreen extends StatefulWidget {
@@ -77,6 +78,17 @@ class _CountryListScreenState extends State<CountryListScreen> {
       body: Scaffold(
         appBar: AppBar(
           title: Text('Search Countries'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CitySelectionPage()),
+                  );
+                },
+                icon: Icon(Icons.location_city)),
+          ],
         ),
         body: Column(
           children: [
@@ -110,6 +122,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                       },
                     ),
             ),
+
             // Display the selected countries
             if (_selectedCountries.isNotEmpty)
               Padding(
