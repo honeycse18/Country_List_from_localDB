@@ -19,33 +19,40 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    // Get the path to the device's documents directory
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String dbPath = join(documentsDirectory.path, 'countries.db');
 
-    // Check if the database exists in the documents directory
     bool dbExists = await File(dbPath).exists();
 
     if (!dbExists) {
-      // If the database doesn't exist, copy it from assets to the documents directory
       ByteData data = await rootBundle.load('assets/countries.db');
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
-
-      // Write the data to the local file
       await File(dbPath).writeAsBytes(bytes);
-      print('Database copied from assets');
-    } else {
-      print('Database already exists in the documents directory');
     }
 
-    // Open the database
     return await openDatabase(dbPath);
   }
 
-  // Example method to retrieve countries from the database
-  Future<List<Map<String, dynamic>>> getCountries() async {
+  // Search for countries by name
+
+  Future<List<Map<String, dynamic>>> searchCountries(String query) async {
     final db = await database;
-    return await db.query('country');
+    return await db.query(
+      'country', // Replace with your table name
+      where:
+          'country_name LIKE ? COLLATE NOCASE', // Replace 'name' with your column name
+      whereArgs: ['%$query%'], // Using % to match partial search terms
+    );
+  }
+
+  Future<List<Map<String, dynamic>>> getRecords(String tableName) async {
+    final db = await database;
+    try {
+      return await db.query(tableName);
+    } catch (e) {
+      print('Error fetching records from $tableName: $e');
+      return [];
+    }
   }
 }
