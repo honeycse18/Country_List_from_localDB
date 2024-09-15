@@ -35,7 +35,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
               itemCount: _countryList.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_countryList[index]['country_name']),
+                  title: Text(_countryList[index]['name']),
                 );
               },
             ),
