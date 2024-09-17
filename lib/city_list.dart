@@ -83,7 +83,7 @@ class _CitySelectionPageState extends State<CitySelectionPage> {
                     itemBuilder: (context, index) {
                       final city = _filteredCities[index];
                       return ListTile(
-                        title: Text(city['city_name']), // Display the city name
+                        title: Text(city['name']), // Display the city name
                         trailing: Radio<Map<String, dynamic>>(
                           value:
                               city, // The city that this radio button represents
@@ -106,7 +106,7 @@ class _CitySelectionPageState extends State<CitySelectionPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Selected City: ${_selectedCity!['city_name']}', // Show selected city
+                'Selected City: ${_selectedCity!['name']}', // Show selected city
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),

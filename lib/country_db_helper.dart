@@ -4,13 +4,13 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
-class DatabaseHelper {
-  static final DatabaseHelper _instance = DatabaseHelper._internal();
-  factory DatabaseHelper() => _instance;
+class CountryDBHelper {
+  static final CountryDBHelper _instance = CountryDBHelper._internal();
+  factory CountryDBHelper() => _instance;
 
   static Database? _database;
 
-  DatabaseHelper._internal();
+  CountryDBHelper._internal();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -25,7 +25,7 @@ class DatabaseHelper {
     bool dbExists = await File(dbPath).exists();
 
     if (!dbExists) {
-      ByteData data = await rootBundle.load('assets/countries.db');
+      ByteData data = await rootBundle.load('assets/Wali2WaliDB.db');
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(dbPath).writeAsBytes(bytes);
@@ -39,9 +39,9 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> searchCountries(String query) async {
     final db = await database;
     return await db.query(
-      'country', // Replace with your table name
+      'list_of_countries', // Replace with your table name
       where:
-          'country_name LIKE ? COLLATE NOCASE', // Replace 'name' with your column name
+          'name LIKE ? COLLATE NOCASE', // Replace 'name' with your column name
       whereArgs: ['%$query%'], // Using % to match partial search terms
     );
   }

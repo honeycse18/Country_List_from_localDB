@@ -20,12 +20,12 @@ class CityHelper {
 
   Future<Database> _initCityDatabase() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String dbPath = join(documentsDirectory.path, 'city.db');
+    String dbPath = join(documentsDirectory.path, 'Wali2WaliDB.db');
 
     bool dbExists = await File(dbPath).exists();
 
     if (!dbExists) {
-      ByteData data = await rootBundle.load('assets/city.db');
+      ByteData data = await rootBundle.load('assets/Wali2WaliDB.db');
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       await File(dbPath).writeAsBytes(bytes);
@@ -37,15 +37,15 @@ class CityHelper {
   // Fetch all cities
   Future<List<Map<String, dynamic>>> getAllCities() async {
     final db = await cityDatabase;
-    return await db.query('city');
+    return await db.query('list_of_cities');
   }
 
   // Search cities by name
   Future<List<Map<String, dynamic>>> searchCities(String query) async {
     final db = await cityDatabase;
     return await db.query(
-      'city',
-      where: 'city_name LIKE ? COLLATE NOCASE',
+      'list_of_cities',
+      where: 'name LIKE ? COLLATE NOCASE',
       whereArgs: ['%$query%'],
     );
   }

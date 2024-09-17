@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:search_list_project/city_list.dart';
-import 'package:search_list_project/db_helper.dart';
+import 'package:search_list_project/country_db_helper.dart';
 
 class CountryListScreen extends StatefulWidget {
   @override
@@ -29,8 +29,8 @@ class _CountryListScreenState extends State<CountryListScreen> {
 
   // Fetch all countries initially
   void _fetchAllCountries() async {
-    List<Map<String, dynamic>> countries = await DatabaseHelper()
-        .getRecords('country'); // Replace with your table name
+    List<Map<String, dynamic>> countries = await CountryDBHelper()
+        .getRecords('list_of_countries'); // Replace with your table name
     setState(() {
       _filteredCountries = countries;
     });
@@ -42,7 +42,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
 
     if (query.isNotEmpty) {
       List<Map<String, dynamic>> countries =
-          await DatabaseHelper().searchCountries(query);
+          await CountryDBHelper().searchCountries(query);
       setState(() {
         _filteredCountries = countries;
       });
@@ -111,7 +111,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
                         final country = _filteredCountries[index];
                         return ListTile(
                           title: Text(country[
-                              'country_name']), // Replace 'name' with the correct column name
+                              'name']), // Replace 'name' with the correct column name
                           trailing: Checkbox(
                             value: _isCountrySelected(country),
                             onChanged: (bool? value) {
@@ -128,7 +128,7 @@ class _CountryListScreenState extends State<CountryListScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Selected Countries: ${_selectedCountries.map((country) => country['country_name']).join(', ')}',
+                  'Selected Countries: ${_selectedCountries.map((country) => country['name']).join(', ')}',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
